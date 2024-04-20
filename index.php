@@ -1,11 +1,6 @@
-<?php
-session_start();
-if(isset($_SESSION['username'])){
-  header('location:dashboard.php');
-}else{
-  ?>
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,13 +16,6 @@ if(isset($_SESSION['username'])){
         <form action="authentication.php" method="post">
           <h3 class="text-center">Login System</h3>
           <hr>
-          <?php
-          if(isset($_SESSION['pesan'])){
-          ?>
-          <div class="alert alert-danger"><?= $_SESSION['pesan'];?></div>
-          <?php
-          }
-          ?>
           <div class="input-group mb-3">
             <span class="input-group-text">
               <i class="bi bi-person-fill"></i>
@@ -54,8 +42,3 @@ if(isset($_SESSION['username'])){
 </body>
 
 </html>
-
-<?php
-}
-session_destroy();
-?>
