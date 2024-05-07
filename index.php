@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(isset($_SESSION['username'])){
+  header('location:dashboard.php');
+}else{
+  ?>
 <!doctype html>
 <html lang="en">
 
@@ -16,6 +22,13 @@
         <form action="authentication.php" method="post">
           <h3 class="text-center">Login System</h3>
           <hr>
+          <?php
+          if(isset($_SESSION['pesan'])){
+          ?>
+          <div class="alert alert-danger"><?= $_SESSION['pesan'];?></div>
+          <?php
+          }
+          ?>
           <div class="input-group mb-3">
             <span class="input-group-text">
               <i class="bi bi-person-fill"></i>
@@ -42,3 +55,7 @@
 </body>
 
 </html>
+<?php
+}
+session_destroy();
+?>
