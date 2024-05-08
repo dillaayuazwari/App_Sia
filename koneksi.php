@@ -2,6 +2,6 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "db_app_sia";
+$db = "sia";
 $koneksi = new mysqli($host, $user, $pass, $db);
 ?>
