@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('location: index.php');
+}else{
+    include_once('koneksi.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,3 +70,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
+<?php
+}
+?>
