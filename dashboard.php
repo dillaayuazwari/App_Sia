@@ -44,7 +44,7 @@ if (!isset($_SESSION['username'])) {
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="?modul-profile">
+                                <a class="dropdown-item" href="?modul=profile">
                                     <i class="bi bi-person-badge-fill"></i>
                                     Profile
                                 </a>
