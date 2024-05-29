@@ -2,7 +2,7 @@
 
 include_once($_SERVER['DOCUMENT_ROOT'] . "/App_sia/koneksi.php");
 $koneksi = mysqli_connect("localhost", "root", "", "app_sia");
-$query = "SELECT * FROM tb_pengguna WHERE username='$_SESSION[username]'";
+$query = "SELECT * FROM pengguna WHERE username='$_SESSION[username]'";
 $exec = mysqli_query($koneksi, $query);
 $data = mysqli_fetch_array($exec);
 ?>
