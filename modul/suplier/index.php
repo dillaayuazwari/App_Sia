@@ -1,6 +1,6 @@
 <div class="card mb-3">
     <div class="card-body">
-    <form action="http://localhost/app_sia/modul/suplier/aksi_suplier.php" method="post">
+    <form action="modul/suplier/aksi_suplier.php?act=insert" method="post">
         <div class="row">
             <div class="mb-3 col-md-6">
                 <label for="nama_suplier" class="form-label"> Nama suplier</label>

@@ -56,8 +56,9 @@
                     <?php
 $query = "SELECT * FROM pengguna";
 $exec = mysqli_query($koneksi, $query);
-$no = 1;
+$no = 0;
 while ($data = mysqli_fetch_array($exec)) {
+   $no++; 
 ?>
 <tr>
     <td><?= $no;?></td>
