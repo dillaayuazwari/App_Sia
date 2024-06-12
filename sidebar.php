@@ -7,8 +7,8 @@ if (!isset($_GET['modul'])) {
 }
 
 $hak_akses = isset($_SESSION['hak_akses']) ? $_SESSION['hak_akses'] : '';
-    
-    ?>
+
+?>
 
 <ul class="nav nav-pills flex-column ms-2">
     <li class="nav-item">
@@ -63,7 +63,7 @@ $hak_akses = isset($_SESSION['hak_akses']) ? $_SESSION['hak_akses'] : '';
                     <a href="?modul=barang" class="nav-link text-dark text-decoration-none <?= $modul === 'barang' ? 'active' : ''; ?>">Barang</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?modul=suplier" class="nav-link text-dark text-decoration-none <?= $modul === 'suplier' ? 'active' : ''; ?>">Suplier</a>
+                    <a href="?modul=supplier" class="nav-link text-dark text-decoration-none <?= $modul === 'supplier' ? 'active' : ''; ?>">Supplier</a>
                 </li>
             </ul>
         </li>

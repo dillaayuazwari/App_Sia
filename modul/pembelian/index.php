@@ -11,9 +11,9 @@
                     <input type="date" class="form-control" name="tanggal">
                 </div>
                 <div class="col-md-4">
-                    <label for="suplier" class="form-label">Suplier</label>
-                    <select name="suplier" class="form-select">
-                        <option value="1">PT Suplier Jaya</option>
+                    <label for="supplier" class="form-label">Supplier</label>
+                    <select name="supplier" class="form-select">
+                        <option value="1">PT Supplier Jaya</option>
                         <option value="2">CV Maju Jaya</option>
                     </select>
                 </div>
@@ -65,7 +65,7 @@
                         <th>#</th>
                         <th>Invoice</th>
                         <th>Tanggal</th>
-                        <th>Suplier</th>
+                        <th>Supplier</th>
                         <th>Jumlah</th>
                         <th>Harga</th>
                         <th>Total</th>
@@ -78,7 +78,7 @@
                         <td>1</td>
                         <td>BL110324</td>
                         <td>11/03/2024</td>
-                        <td>PT Suplier Jaya</td>
+                        <td>PT Suppslier Jaya</td>
                         <td>1</td>
                         <td>Rp. 15.000.000,-</td>
                         <td>Rp. 15.000.000,-</td>
@@ -136,9 +136,9 @@
                             <input type="date" class="form-control" name="tanggal" value="2024-11-03">
                         </div>
                         <div class="col-md-4">
-                            <label for="suplier" class="form-label">Suplier</label>
-                            <select name="suplier" class="form-select">
-                                <option value="1" selected>PT Suplier Jaya</option>
+                            <label for="supplier" class="form-label">Supplier</label>
+                            <select name="supplier" class="form-select">
+                                <option value="1" selected>PT Supplier Jaya</option>
                                 <option value="2">CV Maju Jaya</option>
                             </select>
                         </div>
