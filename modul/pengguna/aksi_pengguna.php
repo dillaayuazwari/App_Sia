@@ -1,70 +1,57 @@
 <?php
-include_once "../../koneksi.php";
 session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . "/appsia_/koneksi.php");
+
+$koneksi = mysqli_connect("localhost", "root", "", "app_sia");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_GET['act'])) { // Periksa apakah 'act' ada dalam URL query string
-        if ($_GET['act'] == "insert" || $_GET['act'] == "update") {
-            $username = $_POST['username'];
-            $nama_lengkap = $_POST['nama_lengkap'];
-            $jabatan = isset($_POST['jabatan']) ? $_POST['jabatan'] : '';
-            $email = $_POST['email'];
+    $username = $_POST['username'];
+    $nama_lengkap = $_POST['nama_lengkap'];
+    $jabatan = $_POST['jabatan'];
+    $email = $_POST['email'];
+    $hak_akses = $_POST['hak_akses'];
 
-            // Periksa apakah 'hak_akses' ada dalam $_POST sebelum mengaksesnya
-            $hak_akses = isset($_POST['hak_akses']) ? $_POST['hak_akses'] : '';
+    if ($_GET["act"] == "insert") {
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-            // Jika password diisi, hash password baru
-            if (!empty($_POST['password'])) {
-                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                $password_query = ", password = ?";
-            } else {
-                $password_query = "";
-            }
+        $query = "INSERT INTO pengguna (username, password, nama_lengkap, jabatan, email, hak_akses) VALUES ('$username', '$password', '$nama_lengkap', '$jabatan', '$email', '$hak_akses')";
+        $exec = mysqli_query($koneksi, $query);
 
-            // Prepared statement untuk mencegah SQL injection
-            $query = "INSERT INTO pengguna (username, password, nama_lengkap, email, jabatan, hak_akses) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($koneksi, $query);
-            mysqli_stmt_bind_param($stmt, 'ssssss', $username, $password, $nama_lengkap, $email, $jabatan, $hak_akses);
+        if ($exec) {
+            $_SESSION['pesan'] = "Data pengguna berhasil ditambah";
+        } else {
+            $_SESSION['pesan'] = "Data pengguna gagal ditambah";
+        }
+    } elseif ($_GET['act'] == "update") {
+        $user_id = $_GET['id'];
+        $password = $_POST['password'];
 
-            // Eksekusi pernyataan persiapan
-            $exc = mysqli_stmt_execute($stmt);
+        if (empty($password)) {
+            $query = "UPDATE pengguna SET nama_lengkap = '$nama_lengkap', jabatan = '$jabatan', email = '$email', hak_akses = '$hak_akses' WHERE user_id = '$user_id'";
+        } else {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $query = "UPDATE pengguna SET password = '$password', nama_lengkap = '$nama_lengkap', jabatan = '$jabatan', email = '$email', hak_akses = '$hak_akses' WHERE user_id = '$user_id'";
+        }
+        $exec = mysqli_query($koneksi, $query);
 
-            if ($exc) {
-                $_SESSION['pesan'] = "Data pengguna berhasil ditambah/ubah";
-            } else {
-                $_SESSION['pesan'] = "Data pengguna gagal ditambah/ubah: " . mysqli_error($koneksi);
-            }
-
-            mysqli_stmt_close($stmt);
+        if ($exec) {
+            $_SESSION['pesan'] = "Data pengguna berhasil diubah";
+        } else {
+            $_SESSION['pesan'] = "Data pengguna gagal diubah";
         }
     }
+} elseif ($_GET['act'] == "delete") {
+    $user_id = $_GET['id'];
+    $query = "DELETE FROM pengguna WHERE user_id = '$user_id'";
+    $exec = mysqli_query($koneksi, $query);
 
-    // Redirect ke halaman dashboard setelah operasi berhasil atau gagal
-    header('location:../../dashboard.php?modul=pengguna');
-} else {
-    if (isset($_GET['act'])) { // Periksa apakah 'act' ada dalam URL query string
-        if ($_GET['act'] == "delete") {
-            $id = $_GET['id'];
-
-            // Prepared statement untuk mencegah SQL injection
-            $query = "DELETE FROM pengguna WHERE user_id = ?";
-            $stmt = mysqli_prepare($koneksi, $query);
-            mysqli_stmt_bind_param($stmt, 'i', $id);
-            $exc = mysqli_stmt_execute($stmt);
-
-            if ($exc) {
-                $_SESSION['pesan'] = "Data pengguna berhasil dihapus";
-            } else {
-                $_SESSION['pesan'] = "Data pengguna gagal dihapus: " . mysqli_error($koneksi);
-            }
-
-            mysqli_stmt_close($stmt);
-
-            // Redirect ke halaman dashboard setelah operasi berhasil atau gagal
-            header('location:../../dashboard.php?modul=pengguna');
-        }
+    if ($exec) {
+        $_SESSION['pesan'] = "Data pengguna berhasil dihapus";
     } else {
-        // Redirect ke halaman index jika tidak ada aksi yang sesuai
-        header('location:../../index.php');
+        $_SESSION['pesan'] = "Data pengguna gagal dihapus";
     }
 }
+
+header('Location: ../../dashboard.php?modul=pengguna');
+exit();
+?>

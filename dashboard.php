@@ -38,10 +38,15 @@ if (!isset($_SESSION['username'])) {
             <div class="col-md-9" style="background-color: #F8F6FA">
                 <div class="text-end p-3">
                     <div class="dropdown">
+                    <?php
+                        $jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Guest'; // Default to 'Guest' if not set
+                        ?>
+
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i>
-                            Administrator
+                            <?= htmlspecialchars($jabatan) ?>
                         </button>
+
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="?modul=profile">

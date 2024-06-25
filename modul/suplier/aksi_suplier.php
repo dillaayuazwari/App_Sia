@@ -1,50 +1,54 @@
 <?php
 session_start();
-include_once('../../koneksi.php');
-if($_SERVER['REQUEST_METHOD']=='POST'){
-$nama_supplier = $_POST['nama_supplier'];
-$alamat = $_POST['alamat'];
-$telp = $_POST['telp'];
-$email = $_POST['email'];
+include_once($_SERVER['DOCUMENT_ROOT'] . "/appsia_/koneksi.php");
 
-if($_GET['act']=="insert"){
-    $query = "INSERT INTO supplier (nama_supplier, alamat, telp, email) VALUES ('$nama_supplier','$alamat','$telp','$email')";
-    $exec = mysqli_query($koneksi, $query);
-    if($exec){
-        $_SESSION['pesan'] = "Data supplier telah ditambahkan";
-        header('location:../../dashboard.php?modul=suplier');
-    }else{
-        $_SESSION['pesan'] = "Data supplier gagal ditambahkan";
-        header('location:../../dashboard.php?modul=suplier');
-    }
-}elseif($_GET['act']=="update"){
-    $id = $_GET['id'];
-    $query = "UPDATE supplier SET nama_supplier='$nama_supplier', alamat='$alamat', telp='$telp', email='$email' WHERE id='$id'";
-    $exec = mysqli_query($koneksi, $query);
-    if($exec){
-        $_SESSION['pesan'] = "Data supplier telah diubah";
-        header('location:../../dashboard.php?modul=suplier');
-    }else{
-        $_SESSION['pesan'] = "Data supplier gagal diubah";
-        header('location:../../dashboard.php?modul=suplier');
-    }
-    echo "update";
-}
+$koneksi = mysqli_connect("localhost", "root", "", "app_sia");
 
-}else{
-    if($_GET['act']=="delete"){
-        $id = $_GET['id'];
-        $query = "DELETE FROM supplier WHERE id='$id'";
-        $exec = mysqli_query($koneksi, $query);
-        if($exec){
-            $_SESSION['pesan'] = "Data supplier telah dihapus";
-            header('location:../../dashboard.php?modul=suplier');
-        }else{
-            $_SESSION['pesan'] = "Data supplier gagal dihapus";
-            header('location:../../dashboard.php?modul=suplier');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama_supplier = $_POST['nama_supplier'];
+    $telepon = $_POST['telepon'];
+    $alamat = $_POST['alamat'];
+    $email = $_POST['email'];
+
+    if (isset($_GET["act"]) && $_GET["act"] == "insert") {
+        $query = "INSERT INTO supplier (nama_supplier, telepon, alamat, email) VALUES (?, ?, ?, ?)";
+        $stmt = $koneksi->prepare($query);
+        $stmt->bind_param("ssss", $nama_supplier, $telepon, $alamat, $email);
+
+        if ($stmt->execute()) {
+            $_SESSION['pesan'] = "Data supplier berhasil ditambah";
+        } else {
+            $_SESSION['pesan'] = "Data supplier gagal ditambah: " . $stmt->error;
         }
-    }else{
-        header('location:../../index.php');
+    } elseif (isset($_GET['act']) && $_GET['act'] == "update") {
+        $supplier_id = $_GET['id'];
+        
+        $query = "UPDATE supplier SET nama_supplier = ?, telepon = ?, alamat = ?, email = ? WHERE supplier_id = ?";
+        $stmt = $koneksi->prepare($query);
+        $stmt->bind_param("ssssi", $nama_supplier, $telepon, $alamat, $email, $supplier_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['pesan'] = "Data supplier berhasil diubah";
+        } else {
+            $_SESSION['pesan'] = "Data supplier gagal diubah: " . $stmt->error;
+        }
+    }
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['act']) && $_GET['act'] == "delete") {
+    $supplier_id = $_GET['id'];
+    $query = "DELETE FROM supplier WHERE supplier_id = ?";
+    $stmt = $koneksi->prepare($query);
+    $stmt->bind_param("i", $supplier_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['pesan'] = "Data supplier berhasil dihapus";
+    } else {
+        $_SESSION['pesan'] = "Data supplier gagal dihapus: " . $stmt->error;
     }
 }
+
+$stmt->close();
+mysqli_close($koneksi);
+
+header('Location: ../../dashboard.php?modul=suplier');
+exit();
 ?>

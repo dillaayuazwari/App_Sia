@@ -1,7 +1,7 @@
 <?php
 if(isset($_POST['submit'])){
     session_start();
-    include_once($_SERVER['DOCUMENT_ROOT'] . "/app_sia/koneksi.php");
+    include_once($_SERVER['DOCUMENT_ROOT'] . "/projek_sia/koneksi.php");
     
     $koneksi = mysqli_connect("localhost", "root", "", "app_sia");
     $username = $_POST['username'];

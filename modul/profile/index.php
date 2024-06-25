@@ -1,6 +1,7 @@
 <?php
 
-include_once($_SERVER['DOCUMENT_ROOT'] . "/App_sia/koneksi.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/projek_sia/koneksi.php");
+
 $koneksi = mysqli_connect("localhost", "root", "", "app_sia");
 $query = "SELECT * FROM pengguna WHERE username='$_SESSION[username]'";
 $exec = mysqli_query($koneksi, $query);
@@ -8,7 +9,7 @@ $data = mysqli_fetch_array($exec);
 ?>
 <div class="card mb-3">
     <div class="card-body">
-        <form action="http://localhost/app_sia/modul/profile/aksi_profile.php" method="post">
+        <form action="http://localhost/appsia_/modul/profile/aksi_profile.php" method="post">
             <div class="row">
                 <div class="mb-3 col-md-4">
                     <label for="username" class="form-label">Username</label>
